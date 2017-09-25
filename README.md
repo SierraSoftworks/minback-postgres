@@ -1,4 +1,4 @@
-# minback-mongo
+# minback-postgres
 **Minio Backup container for PostgreSQL**
 
 This container provides a trivially simple means to run `pg_dump` and fire the results off
