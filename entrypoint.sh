@@ -1,5 +1,5 @@
 #! /bin/bash
-set -e
+set -e -o pipefail
 
 DB="$1"
 ARGS="${@:2}"
