@@ -6,7 +6,7 @@ to a [Minio][] instance. It is intended to be run in conjunction with a [Kuberne
 to maintain a frequent backup of your critical data with minimal fuss.
 
 ## Features
-* Dumps a single MongoDB database to an S3 bucket
+* Dumps a single PostgreSQL database to an S3 bucket
 * Lightweight and short lived
 * Simple and readable implementation
 
