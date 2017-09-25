@@ -20,6 +20,6 @@ fi
 echo "Dumping $DB to $ARCHIVE"
 echo "> pg_dump ${ARGS} -F custom $DB"
 
-pg_dump "${ARGS}" -F custom "$DB" | mc pipe "pg/$ARCHIVE" || mc rm "pg/$ARCHIVE"
+pg_dump "${ARGS}" -F custom "$DB" | mc pipe "pg/$ARCHIVE" || { echo "Backup failed"; mc rm "pg/$ARCHIVE"; exit 1 }
 
 echo "Backup complete"
