@@ -29,7 +29,7 @@ DB_NAME [OPTIONS...]
 
 Arguments
   DB_NAME  - The name of the database you wish to backup
-  OPTIONS  - Any additional options you wish to pass to mongodump
+  OPTIONS  - Any additional options you wish to pass to pg_dump
 ```
 
 ## Configuration
