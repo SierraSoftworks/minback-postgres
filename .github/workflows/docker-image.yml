@@ -1,0 +1,60 @@
+name: Docker
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  IMAGE: minback/postgres
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build Dockerfile
+        run: docker build . --file Dockerfile
+          
+  push:
+
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag image
+
+      - name: Log into registries
+        run: |
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+          echo "${{ secrets.DOCKER_HUB }}" | docker login -u ${{ secrets.DOCKER_HUB_USERNAME }} --password-stdin
+          
+      - name: Calculate version number
+        id: version
+        run: |
+          VERSION=$(git describe --tags 2>/dev/null || git rev-parse --short HEAD)
+          echo "::set-output name=version::$VERSION"
+          
+      - name: Push image to GitHub
+        run: |
+          IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/${{ github.event.repository.name }}
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          docker tag image $IMAGE_ID:latest
+          docker push $IMAGE_ID:latest
+          docker tag image $IMAGE_ID:${{ steps.version.outputs.version }}
+          docker push $IMAGE_ID:${{ steps.version.outputs.version }}
+          
+      - name: Push image to Docker Hub
+        run: |
+          IMAGE_ID=${{ env.IMAGE }}
+          echo IMAGE_ID=$IMAGE_ID
+          docker tag image $IMAGE_ID:latest
+          docker push $IMAGE_ID:latest
+          docker tag image $IMAGE_ID:${{ steps.version.outputs.version }}
+          docker push $IMAGE_ID:${{ steps.version.outputs.version }}
