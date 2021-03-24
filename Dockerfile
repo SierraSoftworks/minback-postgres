@@ -19,5 +19,6 @@ ENV MINIO_API_VERSION="S3v4"
 ENV DATE_FORMAT="+%Y-%m-%d"
 
 ADD entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
 
 ENTRYPOINT [ "/app/entrypoint.sh" ]
