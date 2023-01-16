@@ -1,7 +1,0 @@
-pipeline:
-  publish:docker:
-    image: plugins/docker
-    repo: minback/postgres
-    tag:
-      - latest
-    secrets: [ docker_username, docker_password ]
