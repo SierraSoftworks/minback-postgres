@@ -5,7 +5,7 @@ RUN wget -O /tmp/mc https://dl.minio.io/client/mc/release/linux-amd64/mc
 RUN chmod +x /tmp/mc
 
 # Then build our backup image
-FROM postgres:15.2-alpine
+FROM postgres:15.3-alpine
 LABEL maintainer="Benjamin Pannell <admin@sierrasoftworks.com>"
 
 COPY --from=0 /tmp/mc /usr/bin/mc
