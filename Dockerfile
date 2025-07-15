@@ -1,5 +1,5 @@
 # Fetch the mc command line client
-FROM alpine:3.22.0
+FROM alpine:3.22.1
 RUN apk update && apk add ca-certificates wget && update-ca-certificates
 RUN wget -O /tmp/mc https://dl.minio.io/client/mc/release/linux-amd64/mc
 RUN chmod +x /tmp/mc
